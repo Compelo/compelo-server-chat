@@ -36,6 +36,11 @@ func RootWSS(ws *websocket.Conn) {
 
 			sessione.NewConenction(addr, id)
 			fmt.Println(addr, " -> Aggiunto come sessione")
+		case "REME":
+			addr := ws.Request().RemoteAddr
+
+			sessione.RemoveConnection(addr)
+			fmt.Println(addr, " -> Rimosso")
 		}
 	}
 }

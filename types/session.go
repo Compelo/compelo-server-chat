@@ -24,3 +24,15 @@ func (s *Session) NewConenction(ip string, id int64) Connection {
 
 	return conn
 }
+
+func (s *Session) RemoveConnection(ip string) {
+	index := 0
+	for _, k := range s.Connessioni {
+		if k.Utente.IPAddress != ip {
+			s.Connessioni[index] = k
+			index++
+		}
+	}
+
+	s.Connessioni = s.Connessioni[:index]
+}
