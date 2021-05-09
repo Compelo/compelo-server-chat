@@ -4,15 +4,14 @@ type Session struct {
 	Connessioni []Connection
 }
 
-func (s *Session) FindConnection(ip string) (Connection, string) {
-	for _, c := range s.Connessioni {
+func (s *Session) FindConnection(ip string) (int, string) {
+	for pos, c := range s.Connessioni {
 		if ip == c.Utente.IPAddress {
-			return c, ""
+			return pos, ""
 		}
 	}
 
-	var conn Connection
-	return conn, "Non trovato nulla"
+	return 0, "Non trovato nulla"
 }
 
 func (s *Session) NewConenction(ip string, id int64) Connection {
