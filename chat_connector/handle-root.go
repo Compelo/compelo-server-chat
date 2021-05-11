@@ -78,18 +78,23 @@ func RootWSS(ws *websocket.Conn) {
 			}
 
 			db_connector.NewMessage(sessione.Connessioni[_sessione], int(idMittente), int(idDestinatario), int(tipo), contenuto, int(idChat))
-		case "REMMESSAGE":
-			//Elimina il messaggio
-			//STRUTTURA: [idMessaggio]
-			idMessaggio, err := strconv.ParseInt(arr[1], 10, 64)
+		case "GETMESSAGES":
+			//Prendi tutti i messaggi di una chat
+			//STRUTTURA: [idChat]
+
+			fmt.Println(addr, " -> Ha richiesto i messaggi")
+		case "CHANGECHAT":
+			//Prendi tutti i messaggi di una chat
+			//STRUTTURA: [idChat]
+			i, err := strconv.ParseInt(arr[1], 10, 64)
 			if err != nil {
 				fmt.Println("Errore: ", err)
 			}
 
-			db_connector.EliminaMessaggio(int(idMessaggio))
-		case "GETMESSAGES":
-			//Prendi tutti i messaggi di una chat
-			//STRUTTURA: [idChat]
+			pos, _ := sessione.FindConnection(addr)
+			sessione.Connessioni[pos].IdChat = int(i)
+
+			fmt.Println(addr, " -> Ha cambiato la chat corrente")
 		default:
 			fmt.Println(ws.Request().RemoteAddr, " -> NOT PERMITTED")
 		}

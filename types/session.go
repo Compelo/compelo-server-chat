@@ -35,3 +35,13 @@ func (s *Session) RemoveConnection(ip string) {
 
 	s.Connessioni = s.Connessioni[:index]
 }
+
+func (s *Session) CheckIfUserConnected(id int64) (bool, int) {
+	for pos, c := range s.Connessioni {
+		if id == c.Utente.DatabaseID {
+			return true, pos
+		}
+	}
+
+	return false, -1
+}

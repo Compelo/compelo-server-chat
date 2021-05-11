@@ -28,10 +28,6 @@ func NewMessage(sessione types.Connection, mittente int, destinatario int, tipo 
 	//TODO: IMPLEMENTA
 }
 
-func EliminaMessaggio(id int) {
-	//TODO: IMPLEMENTA
-}
-
 func GetMessagesFromIDChat(id int) string {
 	//TODO: IMPLEMENTA
 	return ""

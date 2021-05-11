@@ -6,4 +6,5 @@ const (
 
 type Connection struct {
 	Utente User
+	IdChat int
 }
