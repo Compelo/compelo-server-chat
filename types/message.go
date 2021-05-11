@@ -1,7 +1,5 @@
 package types
 
-import "time"
-
 const (
 	TYPE_TEXT  = 0
 	TYPE_IMAGE = 1
@@ -13,8 +11,10 @@ const (
 )
 
 type Message struct {
-	Type        int
-	CharStream  string
-	FromWho		int
-	CreatedTime time.Time
+	ID                   int    `json:"id"`
+	IDChat               int    `json:"idChat"`
+	Tipo                 int    `json:"tipo"`
+	Content              string `json:"contenuto"`
+	IDUtenteMittente     int    `json:"idUtenteMittente"`
+	IDUtenteDestinatario int    `json:"idUtenteDestinatario"`
 }

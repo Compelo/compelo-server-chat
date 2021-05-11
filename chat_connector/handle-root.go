@@ -44,43 +44,32 @@ func RootWSS(ws *websocket.Conn) {
 			fmt.Println(addr, " -> Rimosso dalla sessione")
 		case "ADDMESSAGE":
 			//Nuovo messaggio
-			//STRUTTURA: [idChat] [idMittente] [idDestinatario] [tipo] [contenuto]
+			//STRUTTURA: [contenuto]
 			_sessione, e := sessione.FindConnection(addr)
 			if e == "Non trovato nulla" {
 				fmt.Println("Errore -> Non trovato la sessione per ", addr)
 				return
 			}
 
-			//Prendo i dati
-			idChat, err := strconv.ParseInt(arr[1], 10, 64)
+			contenuto := arr[1]
 			if err != nil {
 				fmt.Println("Errore: ", err)
 			}
 
-			idMittente, err := strconv.ParseInt(arr[2], 10, 64)
-			if err != nil {
-				fmt.Println("Errore: ", err)
-			}
+			db_connector.NewMessage(sessione.Connessioni[_sessione], contenuto, sessione.Connessioni[_sessione].IdChat)
 
-			idDestinatario, err := strconv.ParseInt(arr[3], 10, 64)
-			if err != nil {
-				fmt.Println("Errore: ", err)
-			}
-
-			tipo, err := strconv.ParseInt(arr[4], 10, 64)
-			if err != nil {
-				fmt.Println("Errore: ", err)
-			}
-
-			contenuto := arr[5]
-			if err != nil {
-				fmt.Println("Errore: ", err)
-			}
-
-			db_connector.NewMessage(sessione.Connessioni[_sessione], int(idMittente), int(idDestinatario), int(tipo), contenuto, int(idChat))
+			fmt.Println(addr, " -> Aggiunto il messaggio")
 		case "GETMESSAGES":
 			//Prendi tutti i messaggi di una chat
 			//STRUTTURA: [idChat]
+			idChat, err := strconv.Atoi(arr[1])
+			if err != nil {
+				fmt.Println("Errore: ", err)
+			}
+
+			msg := db_connector.GetMessagesFromIDChat(idChat)
+
+			ws.Write([]byte(msg))
 
 			fmt.Println(addr, " -> Ha richiesto i messaggi")
 		case "CHANGECHAT":
